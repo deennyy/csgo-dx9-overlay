@@ -1,6 +1,7 @@
 # csgo-dx9-overlay
 
-An external overlay using DX9 and ImGui for CS:GO, written for Windows in C++
+An external overlay using DX9 and ImGui for CS:GO, written for Windows in C++ <br>
+The resolution is hard-coded to 1920x1080, replace all 1920s and 1080s in the project to your resolution
 
 ![Screenshot](screenshot.png)
 
