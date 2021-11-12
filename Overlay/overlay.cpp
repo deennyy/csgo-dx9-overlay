@@ -8,6 +8,7 @@
 #include <d3d9.h>
 #include <tchar.h>
 #include <cmath>
+#include <dwmapi.h>
 
 #include "overlay.h"
 #include "data.h"
@@ -31,7 +32,8 @@ int overlay::run()
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_HREDRAW | CS_VREDRAW, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
     ::RegisterClassEx(&wc);
-    HWND hwnd = ::CreateWindowEx(WS_EX_LTRREADING | WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_NOACTIVATE, wc.lpszClassName, _T("Dear ImGui DirectX9 Example"), WS_POPUP, 0, 0, 1920, 1080, NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindowEx(WS_EX_LTRREADING | WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_NOACTIVATE | WS_EX_TRANSPARENT, wc.lpszClassName, _T("Dear ImGui DirectX9 Example"), WS_POPUP | WS_MAXIMIZE, 0, 0, 1920, 1080, NULL, NULL, wc.hInstance, NULL);
+    MARGINS margins = { -1 };
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -42,10 +44,10 @@ int overlay::run()
     }
 
     // Show the window
-    ::SetLayeredWindowAttributes(hwnd, 0, RGB(0, 0, 0), LWA_COLORKEY);
+    ::SetLayeredWindowAttributes(hwnd, 0, 255.f, LWA_ALPHA);
     ::ShowWindow(hwnd, SW_SHOWDEFAULT);
     ::UpdateWindow(hwnd);
-
+    ::DwmExtendFrameIntoClientArea(hwnd, &margins);
     ::ShowCursor(NULL);
 
     // Setup Dear ImGui context
@@ -82,7 +84,7 @@ int overlay::run()
     // Our state
     bool show_demo_window = true;
     bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 0.f);
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 0.00f);
 
     // Main loop
     bool done = false;
