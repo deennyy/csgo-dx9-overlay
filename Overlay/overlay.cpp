@@ -32,7 +32,7 @@ int overlay::run()
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_HREDRAW | CS_VREDRAW, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
     ::RegisterClassEx(&wc);
-    HWND hwnd = ::CreateWindowEx(WS_EX_LTRREADING | WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_NOACTIVATE | WS_EX_TRANSPARENT, wc.lpszClassName, _T("Dear ImGui DirectX9 Example"), WS_POPUP | WS_MAXIMIZE, 0, 0, 1920, 1080, NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindowEx(WS_EX_LTRREADING | WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_NOACTIVATE | WS_EX_TRANSPARENT, wc.lpszClassName, _T("Dear ImGui DirectX9 Example"), WS_POPUP | WS_MAXIMIZE, 0, 0, data::screen_x, data::screen_y, NULL, NULL, wc.hInstance, NULL);
     MARGINS margins = { -1 };
 
     // Initialize Direct3D
@@ -112,7 +112,7 @@ int overlay::run()
         ImGui::NewFrame();
 
         ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(ImVec2(1920, 1080));
+        ImGui::SetNextWindowSize(ImVec2(data::screen_x, data::screen_y));
         ImGui::Begin("overlay", NULL, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 
         ImDrawList* draw_list = ImGui::GetWindowDrawList();

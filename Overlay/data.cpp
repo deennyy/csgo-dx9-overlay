@@ -19,4 +19,6 @@ namespace globals {
 namespace data {
 	LPCWSTR game_name = L"Counter-Strike: Global Offensive - Direct3D 9";
 	bool should_continue = true;
+	int screen_x = 0;
+	int screen_y = 0;
 };

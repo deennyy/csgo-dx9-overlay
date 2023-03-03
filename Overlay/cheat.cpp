@@ -11,8 +11,8 @@ vec3 cheat::w2s(const vec3 pos) {
 	_x *= 1.f / out.z;
 	_y *= 1.f / out.z;
 
-	int width = 1920;
-	int height = 1080;
+	int width = data::screen_x;
+	int height = data::screen_y;
 
 	out.x = width * .5f;
 	out.y = height * .5f;
@@ -24,6 +24,9 @@ vec3 cheat::w2s(const vec3 pos) {
 }
 
 void cheat::startup() {
+	data::screen_x = GetSystemMetrics(SM_CXSCREEN);
+	data::screen_y = GetSystemMetrics(SM_CYSCREEN);
+
 	modules::engine = memory->get_module(L"engine.dll");
 	modules::client = memory->get_module(L"client.dll");
 
