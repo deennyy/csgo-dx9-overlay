@@ -1,7 +1,7 @@
 # csgo-dx9-overlay
 
 An external overlay using DX9 and ImGui for CS:GO, written for Windows in C++ <br>
-You need to run CS:GO in fullscreen windowed mode
+Works in both borderless and windowed mode
 
 ![Screenshot](screenshot.png)
 
