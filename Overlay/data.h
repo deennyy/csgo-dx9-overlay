@@ -29,6 +29,10 @@ namespace globals {
 namespace data {
 	extern LPCWSTR game_name;
 	extern bool should_continue;
-	extern int screen_x;
-	extern int screen_y;
+	extern int screen_width;
+	extern int screen_height;
+	extern int cs_window_width;
+	extern int cs_window_height;
+	extern int cs_window_x;
+	extern int cs_window_y;
 };

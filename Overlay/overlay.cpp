@@ -28,11 +28,31 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int overlay::run()
 {
+    RECT cs_rect = { -1 };
+    GetWindowRect(memory->hwnd, &cs_rect);
+
+    auto width = cs_rect.right - cs_rect.left;
+    auto height = cs_rect.bottom - cs_rect.top;
+    int x, y;
+
+    if (width == data::screen_width && height == data::screen_height) {
+        data::cs_window_width = width;
+        data::cs_window_height = height;
+        x = 0;
+        y = 0;
+    }
+    else {
+        data::cs_window_width = width - 2;
+        data::cs_window_height = height - 27;
+        x = cs_rect.left - 1;
+        y = cs_rect.top + 26;
+    }
+
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_HREDRAW | CS_VREDRAW, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
     ::RegisterClassEx(&wc);
-    HWND hwnd = ::CreateWindowEx(WS_EX_LTRREADING | WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_NOACTIVATE | WS_EX_TRANSPARENT, wc.lpszClassName, _T("Dear ImGui DirectX9 Example"), WS_POPUP | WS_MAXIMIZE, 0, 0, data::screen_x, data::screen_y, NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindowEx(WS_EX_LTRREADING | WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_NOACTIVATE | WS_EX_TRANSPARENT, wc.lpszClassName, _T("Dear ImGui DirectX9 Example"), WS_POPUP | WS_MAXIMIZE, x, y, data::cs_window_width, data::cs_window_height, NULL, NULL, wc.hInstance, NULL);
     MARGINS margins = { -1 };
 
     // Initialize Direct3D
@@ -112,7 +132,7 @@ int overlay::run()
         ImGui::NewFrame();
 
         ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(ImVec2(data::screen_x, data::screen_y));
+        ImGui::SetNextWindowSize(ImVec2(data::cs_window_width, data::cs_window_height));
         ImGui::Begin("overlay", NULL, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
@@ -135,6 +155,7 @@ int overlay::run()
 
                     if (entityteam == local_player_team || entitydormant || entityhealth <= 0)
                         continue;
+                    draw_list->AddText(ImVec2(100, 40), ImColor(ImVec4(1.f, 0.f, 0.f, 1.f)), "denny's external");
 
                     // big fucking calculations, since m_vecOrigin doesn't compensate for distance
                     vec3 entity_origin = memory->read<vec3>(entity + offsets::m_vecOrigin);           

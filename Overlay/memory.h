@@ -129,7 +129,10 @@ private:
 		return true;
 	}
 
+public:
 	HWND hwnd = NULL;
+
+private:
 	DWORD pid = NULL;
 	HMODULE module_array[1024];
 	DWORD cbNeeded;
